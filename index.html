@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Apple Living Room Neglect Tracker</title>
+  <style>
+    :root {
+      --bg: #0b0b0f;
+      --panel: #16161d;
+      --panel-2: #1e1f29;
+      --text: #f5f5f7;
+      --muted: #a1a1aa;
+      --accent: #7dd3fc;
+      --border: #2a2c39;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+      background: linear-gradient(180deg, #0b0b0f 0%, #11131a 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 32px 20px 72px;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 4vw, 3.6rem);
+      line-height: 1.05;
+      margin: 0 0 12px;
+      letter-spacing: -0.04em;
+    }
+
+    .sub {
+      color: var(--muted);
+      font-size: 1.05rem;
+      margin: 0 0 32px;
+      max-width: 760px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+
+    .card {
+      background: rgba(22, 22, 29, 0.9);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 22px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.26);
+    }
+
+    .label {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+    }
+
+    .count {
+      font-size: clamp(2.4rem, 6vw, 4.5rem);
+      font-weight: 700;
+      letter-spacing: -0.05em;
+      margin: 0;
+    }
+
+    .tiny {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+
+    .section-title {
+      font-size: 1.35rem;
+      margin: 0 0 14px;
+      letter-spacing: -0.03em;
+    }
+
+    .rumor-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+      align-items: center;
+    }
+
+    .meta-pill {
+      font-size: 0.78rem;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #1a1d26;
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+
+    .rumor-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .rumor-item {
+      border: 1px solid var(--border);
+      background: #12131a;
+      padding: 14px;
+      border-radius: 16px;
+    }
+
+    .rumor-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .tag {
+      font-size: 0.78rem;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #1d2430;
+      color: var(--accent);
+      white-space: nowrap;
+      border: 1px solid #2a3746;
+    }
+
+    a {
+      color: #b9e8ff;
+      text-decoration: none;
+    }
+
+    a:hover { text-decoration: underline; }
+
+    .tools {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .secondary {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      padding: 10px 12px;
+      border-radius: 12px;
+    }
+
+    footer {
+      color: var(--muted);
+      margin-top: 22px;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 640px) {
+      .rumor-top { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>The Apple Living Room Neglect Tracker</h1>
+    <p class="sub">
+      A mildly petty, highly deserved tracker for how many days Apple has let the Apple TV, HomePod, and HomePod mini sit there like “this is fine.” Plus a rumor graveyard for all the breathless articles that never turn into actual hardware.
+    </p>
+
+    <section class="card" style="margin-bottom: 24px;">
+      <h2 class="section-title">Same hardware, different year</h2>
+      <p class="tiny" style="margin-top:0; margin-bottom:16px;">
+        These are the shipping counters: how long it has been since Apple last expected actual human beings to hand over money for “new” living-room hardware.
+      </p>
+      <div class="grid">
+      <section class="card">
+        <div class="label">Apple TV 4K neglect counter</div>
+        <p id="appleTvCount" class="count">0</p>
+        <div class="tiny">Shipping neglect: days since the current model arrived on November 4, 2022.</div>
+      </section>
+
+      <section class="card">
+        <div class="label">HomePod neglect counter</div>
+        <p id="homePodCount" class="count">0</p>
+        <div class="tiny">Shipping neglect: days since the current full-size model arrived on February 3, 2023.</div>
+      </section>
+
+      <section class="card">
+        <div class="label">HomePod mini neglect counter</div>
+        <p id="homePodMiniCount" class="count">0</p>
+        <div class="tiny">Shipping neglect: days since HomePod mini first arrived on November 16, 2020.</div>
+      </section>
+    </div>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">Announced with confidence, ignored with consistency</h2>
+      <p class="tiny" style="margin-top:0; margin-bottom:16px;">
+        These are the announcement-side counters: the number of days since Apple stood on a stage, smiled confidently, and then left the category to age in public.
+      </p>
+      <div class="grid">
+        <section class="card">
+          <div class="label">Apple TV 4K</div>
+          <p id="appleTvRevealCount" class="count">0</p>
+          <div class="tiny">Reveal neglect: since October 18, 2022.</div>
+          <div class="tiny" style="margin-top:8px;">Shipping neglect: <span id="appleTvShipInline">0</span> days since November 4, 2022.</div>
+        </section>
+
+        <section class="card">
+          <div class="label">HomePod</div>
+          <p id="homePodRevealCount" class="count">0</p>
+          <div class="tiny">Reveal neglect: since January 18, 2023.</div>
+          <div class="tiny" style="margin-top:8px;">Shipping neglect: <span id="homePodShipInline">0</span> days since February 3, 2023.</div>
+        </section>
+
+        <section class="card">
+          <div class="label">HomePod mini</div>
+          <p id="homePodMiniRevealCount" class="count">0</p>
+          <div class="tiny">Reveal neglect: since October 13, 2020.</div>
+          <div class="tiny" style="margin-top:8px;">Shipping neglect: <span id="homePodMiniShipInline">0</span> days since November 16, 2020.</div>
+        </section>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">Rumor graveyard</h2>
+      <p class="tiny" style="margin-top:0; margin-bottom:16px;">
+        Fresh disappointment, courtesy of the owner-maintained spreadsheet. Add rumors in the Google Sheet, reload the page, and watch the graveyard expand.
+      </p>
+
+      <div class="tools" style="margin-top:0; margin-bottom:18px;">
+        <button class="secondary" id="refreshRumorsBtn" type="button">Refresh rumors</button>
+      </div>
+
+      <div id="rumorStatus" class="tiny" style="margin-top:0; margin-bottom:14px;">Loading rumors from the spreadsheet...</div>
+      <div id="rumorList" class="rumor-list"></div>
+    </section>
+
+    <footer>
+      Next upgrade path: deploy this on GitHub Pages, Netlify, or Vercel. If you later want it to auto-pull headlines from an RSS feed or API, add a tiny serverless function so you do not get smacked by browser CORS limits.
+    </footer>
+  </div>
+
+  <script>
+    const APPLE_TV_DATE = new Date('2022-11-04T00:00:00');
+    const APPLE_TV_REVEAL_DATE = new Date('2022-10-18T00:00:00');
+    const HOMEPOD_DATE = new Date('2023-02-03T00:00:00');
+    const HOMEPOD_REVEAL_DATE = new Date('2023-01-18T00:00:00');
+    const HOMEPOD_MINI_DATE = new Date('2020-11-16T00:00:00');
+    const HOMEPOD_MINI_REVEAL_DATE = new Date('2020-10-13T00:00:00');
+    const RUMOR_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQofUNWObgX2cp3NBzdi7Pd7u4gInU2flTV0IS7xq7feUHAl8rtrDHlM3Mkb7Lkc1DCeNinj4nNV8iu/pub?gid=0&single=true&output=csv';
+
+    function daysSince(date) {
+      const now = new Date();
+      const diff = now - date;
+      return Math.floor(diff / (1000 * 60 * 60 * 24));
+    }
+
+    function updateCounters() {
+      const appleTvShip = daysSince(APPLE_TV_DATE).toLocaleString();
+      const homePodShip = daysSince(HOMEPOD_DATE).toLocaleString();
+      const homePodMiniShip = daysSince(HOMEPOD_MINI_DATE).toLocaleString();
+
+      document.getElementById('appleTvCount').textContent = appleTvShip;
+      document.getElementById('homePodCount').textContent = homePodShip;
+      document.getElementById('homePodMiniCount').textContent = homePodMiniShip;
+
+      document.getElementById('appleTvRevealCount').textContent = daysSince(APPLE_TV_REVEAL_DATE).toLocaleString();
+      document.getElementById('homePodRevealCount').textContent = daysSince(HOMEPOD_REVEAL_DATE).toLocaleString();
+      document.getElementById('homePodMiniRevealCount').textContent = daysSince(HOMEPOD_MINI_REVEAL_DATE).toLocaleString();
+
+      document.getElementById('appleTvShipInline').textContent = appleTvShip;
+      document.getElementById('homePodShipInline').textContent = homePodShip;
+      document.getElementById('homePodMiniShipInline').textContent = homePodMiniShip;
+    }
+
+    function escapeHtml(text = '') {
+      return String(text).replace(/[&<>\"']/g, char => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      }[char]));
+    }
+
+    function escapeAttribute(text = '') {
+      return String(text).replace(/"/g, '&quot;');
+    }
+
+    function parseCsvLine(line) {
+      const result = [];
+      let current = '';
+      let inQuotes = false;
+
+      for (let i = 0; i < line.length; i++) {
+        const char = line[i];
+        const next = line[i + 1];
+
+        if (char === '"') {
+          if (inQuotes && next === '"') {
+            current += '"';
+            i++;
+          } else {
+            inQuotes = !inQuotes;
+          }
+        } else if (char === ',' && !inQuotes) {
+          result.push(current);
+          current = '';
+        } else {
+          current += char;
+        }
+      }
+
+      result.push(current);
+      return result;
+    }
+
+    function parseCsv(text) {
+      const lines = text.replace(/^﻿/, '').trim().split(/
+?
+/).filter(Boolean);
+      if (!lines.length) return [];
+
+      const headers = parseCsvLine(lines[0]).map(header => header.trim());
+      return lines.slice(1).map(line => {
+        const values = parseCsvLine(line);
+        const row = {};
+        headers.forEach((header, index) => {
+          row[header] = (values[index] || '').trim();
+        });
+        return row;
+      });
+    }
+
+    function prettyDate(value) {
+      if (!value) return 'Unknown date';
+      const date = new Date(`${value}T00:00:00`);
+      if (Number.isNaN(date.getTime())) return escapeHtml(value);
+      return date.toLocaleDateString(undefined, {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+      });
+    }
+
+    function sortRumors(items) {
+      return [...items].sort((a, b) => {
+        const aTime = Date.parse(`${a.article_date || ''}T00:00:00`) || 0;
+        const bTime = Date.parse(`${b.article_date || ''}T00:00:00`) || 0;
+        return bTime - aTime;
+      });
+    }
+
+    function renderRumors(items) {
+      const list = document.getElementById('rumorList');
+      const status = document.getElementById('rumorStatus');
+      const sortedItems = sortRumors(items);
+
+      if (!sortedItems.length) {
+        status.textContent = 'No rumors found in the spreadsheet yet. An empty graveyard is suspicious.';
+        list.innerHTML = '';
+        return;
+      }
+
+      status.textContent = `Showing ${sortedItems.length} rumor${sortedItems.length === 1 ? '' : 's'} from the spreadsheet.`;
+
+      list.innerHTML = sortedItems.map(item => `
+        <article class="rumor-item">
+          <div class="rumor-top">
+            <div>
+              <div style="font-weight:700; margin-bottom:6px;">${escapeHtml(item.title || 'Untitled rumor')}</div>
+              <a href="${escapeAttribute(item.url || '#')}" target="_blank" rel="noopener noreferrer">Read the rumor article</a>
+              <div class="tiny">${escapeHtml(item.source || 'Unknown source')} • ${prettyDate(item.article_date)}</div>
+            </div>
+            <div class="tag">${escapeHtml(item.product || 'Other')}</div>
+          </div>
+          <div class="rumor-meta">
+            <span class="meta-pill">Rumored window: ${escapeHtml(item.rumored_window || 'Unknown')}</span>
+            <span class="meta-pill">Status: ${escapeHtml(item.status || 'Unclear')}</span>
+          </div>
+          ${item.notes ? `<div class="tiny">${escapeHtml(item.notes)}</div>` : ''}
+        </article>
+      `).join('');
+    }
+
+    async function loadRumors() {
+      const status = document.getElementById('rumorStatus');
+      status.textContent = 'Loading rumors from the spreadsheet...';
+
+      try {
+        const response = await fetch(RUMOR_CSV_URL, { cache: 'no-store' });
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        const csvText = await response.text();
+        const items = parseCsv(csvText);
+        renderRumors(items);
+      } catch (error) {
+        document.getElementById('rumorList').innerHTML = '';
+        status.textContent = 'Could not load the rumor spreadsheet right now. Google Sheets is being dramatic again.';
+        console.error(error);
+      }
+    }
+
+    document.getElementById('refreshRumorsBtn').addEventListener('click', () => {
+      loadRumors();
+    });
+
+    updateCounters();
+    loadRumors();
+    setInterval(updateCounters, 60 * 1000);
+  </script>
+</body>
+</html>
